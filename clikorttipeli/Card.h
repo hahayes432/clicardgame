@@ -24,7 +24,14 @@ public:
 
 	void Add(Card c);
 
+	void AddMultiple(int Count);
+
 	int Sum();
+
+	void Shuffle();
+
+	//this is only here for testing remove later
+	void PrintCards();
 
 private:
 	std::vector<Card> cards;

@@ -1,8 +1,9 @@
 #include "Card.h"
-#include <cstdlib>
 #include <vector>
 #include <ctime>
-
+#include <algorithm>
+#include <random>
+#include <iostream>
 
 Card::Card() {
 	//random value between 0 and n-1
@@ -28,9 +29,18 @@ Hand::Hand(Card C) {
 	this->cards.push_back(C);
 }
 
-//Add to existing hand
+//Add a card to existing hand
 void Hand::Add(Card C) {
+
 	this->cards.push_back(C);
+}
+
+//Add more than one generated cards to hand
+void Hand::AddMultiple(int Count) {
+	for (int i = 0; i < Count; i++) {
+		Card newCard = Card::Card();
+		this->cards.push_back(newCard);
+	}
 }
 
 //Count sum of hand
@@ -40,4 +50,15 @@ int Hand::Sum() {
 		total += this->cards[i].Value();
 	}
 	return total;
+}
+
+void Hand::Shuffle() {
+	auto rng = std::default_random_engine{};
+	std::shuffle(std::begin(this->cards), std::end(this->cards), rng);
+}
+
+void Hand::PrintCards() {
+	for (int i = 0; i < this->cards.size(); i++) {
+		std::cout << "Card value at index " << i << " is: " << this->cards[i].Value() << std::endl;
+	}
 }
