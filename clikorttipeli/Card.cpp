@@ -52,11 +52,13 @@ int Hand::Sum() {
 	return total;
 }
 
+//shuffle cards. Remove if no time to make different card game than blackjack
 void Hand::Shuffle() {
 	auto rng = std::default_random_engine{};
 	std::shuffle(std::begin(this->cards), std::end(this->cards), rng);
 }
 
+//Debug thing to see how random shuffle id / how random generated cards are. Remove later.
 void Hand::PrintCards() {
 	for (int i = 0; i < this->cards.size(); i++) {
 		std::cout << "Card value at index " << i << " is: " << this->cards[i].Value() << std::endl;
