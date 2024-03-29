@@ -1,20 +1,34 @@
 #include <iostream>
 #include "Card.h"
+#include "Player.h"
 
 using namespace std;
 
-void blackjack() {
-	Hand DealerHand;
-	Hand PlayerHand;
-	PlayerHand.AddMultiple(2);
-	DealerHand.AddMultiple(2);
-	cout << "The current value of your hand is: " << PlayerHand.Sum() << "\nThe current value of the dealers hand is: " << DealerHand.Sum() << endl;
-	PlayerHand.Add(Card::Card());
-	DealerHand.Add(Card::Card());
-	cout << "The current value of your hand is: " << PlayerHand.Sum() << "\nThe current value of the dealers hand is: " << DealerHand.Sum() << endl;
+void blackjack(Player player) {
+	bool gameOver = false;
+	cout << "How much do you want to bet on the next game?" << endl;
+	player.ViewBalance();
+	unsigned long long bet;
+	cin >> bet;
+	//game loop
+	do {
+		short choice;
+		cin >> choice;
+		switch (choice)
+		{
+		case 1: 
+			
+			break;
+		default:
+			gameOver = true;
+			break;
+		}
+	} while (!gameOver);
 }
 
 int main() {
+	//for use later
+	Player player;
 	cout << "What game do you want to play \n";
 	cout << "1: Blackjack\n2: todo..." << endl;
 	short choice;
@@ -22,7 +36,7 @@ int main() {
 	switch (choice)
 	{
 	case 1:
-		blackjack();
+		blackjack(player);
 		break;
 	default:
 		break;
