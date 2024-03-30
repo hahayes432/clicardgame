@@ -8,13 +8,13 @@ Player::Player() {
 }
 
 //Give balance from winning
-void Player::AddBalance(unsigned int Amount) {
+void Player::AddBalance(double Amount) {
 	this->balance += Amount;
 }
 
 //Take Balance from losing
-void Player::TakeBalance(unsigned int Amount) {
-	if (Amount > this->balance || (this->balance -= Amount) < 50) {
+void Player::TakeBalance(double Amount) {
+	if (Amount > this->balance || (this->balance - Amount) < 50) {
 		this->balance = 50;
 	}
 	else {
@@ -24,7 +24,7 @@ void Player::TakeBalance(unsigned int Amount) {
 
 //Print balance
 void Player::ViewBalance() {
-	std::cout << "Your balance is: " << this->balance << "$" << std::endl;
+	std::wcout << "Your balance is: $" << this->balance << std::endl;
 }
 
 //Give player cards from deck
@@ -40,10 +40,21 @@ void Player::GiveCards(unsigned int Count, Deck& deck) {
 }
 
 //Make hand empty for next games
-void Player::NewHand() {
+void Player::EmptyHand() {
 	this->hand.EmptyHand();
 }
 
 int Player::SumOfHand() {
 	return this->hand.Sum();
+}
+
+Hand Player::SplitHand() {
+	if (this->hand.Size() == 2 && this->hand.SameValue() == true) {
+		Hand NewHand;
+		NewHand.Add(this->hand.TakeFromHand());
+		return NewHand;
+	}
+	else {
+		return this->hand;
+	}
 }

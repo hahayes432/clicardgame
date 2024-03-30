@@ -8,21 +8,23 @@ class Player {
 public:
 	Player();
 	
-	void AddBalance(unsigned int Amount);
+	void AddBalance(double Amount);
 
-	void TakeBalance(unsigned int Amount);
+	void TakeBalance(double Amount);
 
 	void ViewBalance();
 
 	void GiveCards(unsigned int Count, Deck& deck);
 
-	void NewHand();
+	void EmptyHand();
 
 	int SumOfHand();
+	
+	Hand SplitHand();
 
 private:
 	Hand hand;
-	unsigned int balance;
+	double balance;
 };
 
 #endif

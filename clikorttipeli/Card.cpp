@@ -79,6 +79,17 @@ void Hand::PrintCards() {
 	}
 }
 
+bool Hand::SameValue() {
+	Card card1 = this->cards.at(0);
+	Card card2 = this->cards.at(1);
+	if (card1.Value() == card2.Value()) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 //Initialize empty deck
 Deck::Deck() {
 

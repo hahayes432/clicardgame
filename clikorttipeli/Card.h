@@ -39,6 +39,8 @@ public:
 	//this is only here for testing remove later
 	void PrintCards();
 
+	bool SameValue();
+
 private:
 	std::vector<Card> cards;
 };
