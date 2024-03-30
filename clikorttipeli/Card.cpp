@@ -6,9 +6,9 @@
 #include <iostream>
 
 Card::Card() {
-	//random value between 0 and n-1
-	short n = 12; 
-	this->value = rand() % n;
+	//random value between 1 and n
+	short n = 11; 
+	this->value = (rand() % n)+1;
 }
 
 Card::Card(short value) {
@@ -38,8 +38,7 @@ void Hand::Add(Card C) {
 //Add more than one generated cards to hand
 void Hand::AddMultiple(int Count) {
 	for (int i = 0; i < Count; i++) {
-		Card newCard = Card::Card();
-		this->cards.push_back(newCard);
+		this->cards.push_back(Card::Card());
 	}
 }
 
@@ -58,14 +57,15 @@ void Hand::Shuffle() {
 	std::shuffle(std::begin(this->cards), std::end(this->cards), rng);
 }
 
-Card Hand::takeCard() {
+
+size_t Hand::Size() {
+	return this->cards.size();
+}
+
+Card Hand::TakeFromHand() {
 	Card C = this->cards.at(this->cards.size() - 1);
 	this->cards.pop_back();
 	return C;
-}
-
-unsigned int Hand::Size() {
-	return this->cards.size();
 }
 
 void Hand::EmptyHand() {
@@ -95,6 +95,10 @@ void Deck::ShuffleDeck() {
 	this->deck.Shuffle();
 }
 
+size_t Deck::SizeofDeck() {
+	return this->deck.Size();
+}
+
 bool Deck::IsEmpty() {
 	if (this->deck.Size() == 0) {
 		return true;
@@ -102,4 +106,8 @@ bool Deck::IsEmpty() {
 	else {
 		return false;
 	}
+}
+
+Card Deck::TakeCard() {
+	return this->deck.TakeFromHand();
 }

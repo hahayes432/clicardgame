@@ -24,15 +24,14 @@ void Player::TakeBalance(unsigned int Amount) {
 
 //Print balance
 void Player::ViewBalance() {
-	std::cout << "Your balance is: " << this->balance << "\$" << std::endl;
+	std::cout << "Your balance is: " << this->balance << "$" << std::endl;
 }
 
 //Give player cards from deck
-void Player::GiveCards(unsigned int Count, Deck deck) {
-	if (!deck.IsEmpty()) {
+void Player::GiveCards(unsigned int Count, Deck& deck) {
+	if (deck.IsEmpty() == false) {
 		for (unsigned int i = 0; i < Count; i++) {
-			Card c = deck.takeCard();
-			this->hand.Add(c);
+			this->hand.Add(deck.TakeCard());
 		}
 	}
 	else {
@@ -43,4 +42,8 @@ void Player::GiveCards(unsigned int Count, Deck deck) {
 //Make hand empty for next games
 void Player::NewHand() {
 	this->hand.EmptyHand();
+}
+
+int Player::SumOfHand() {
+	return this->hand.Sum();
 }

@@ -14,9 +14,11 @@ public:
 
 	void ViewBalance();
 
-	void GiveCards(unsigned int Count, Deck deck);
+	void GiveCards(unsigned int Count, Deck& deck);
 
 	void NewHand();
+
+	int SumOfHand();
 
 private:
 	Hand hand;

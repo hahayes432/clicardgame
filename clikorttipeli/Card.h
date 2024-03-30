@@ -4,7 +4,7 @@
 #define CARD
 #include <vector>
 
-//mostyl here as new types for use with player class and some functions that might not get used idk yet
+//mostly here as new types for use with player class and some functions that might not get used idk yet
 class Card {
 public:
 	Card();
@@ -31,9 +31,9 @@ public:
 
 	void Shuffle();
 
-	Card takeCard();
+	Card TakeFromHand();
 
-	unsigned int Size();
+	size_t Size();
 
 	void EmptyHand();
 	//this is only here for testing remove later
@@ -52,6 +52,10 @@ public:
 	void ShuffleDeck();
 
 	bool IsEmpty();
+
+	Card TakeCard();
+
+	size_t SizeofDeck();
 private:
 	Hand deck;
 };
