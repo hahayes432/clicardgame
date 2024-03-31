@@ -9,8 +9,6 @@ class Card {
 public:
 	Card();
 
-	Card(short value);
-
 	short Value();
 
 private:
@@ -20,8 +18,6 @@ private:
 class Hand {
 public:
 	Hand();
-
-	Hand(Card C);
 
 	void Add(Card c);
 
@@ -36,7 +32,7 @@ public:
 	size_t Size();
 
 	void EmptyHand();
-	//this is only here for testing remove later
+
 	void PrintCards();
 
 	bool SameValue();

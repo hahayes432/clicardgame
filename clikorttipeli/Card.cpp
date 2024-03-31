@@ -11,10 +11,6 @@ Card::Card() {
 	this->value = (rand() % n)+1;
 }
 
-Card::Card(short value) {
-	this->value = value;
-
-}
 
 short Card::Value() {
 	return value;
@@ -24,14 +20,10 @@ short Card::Value() {
 Hand::Hand() {
 
 }
-//initialize new hand with a card
-Hand::Hand(Card C) {
-	this->cards.push_back(C);
-}
+
 
 //Add a card to existing hand
 void Hand::Add(Card C) {
-
 	this->cards.push_back(C);
 }
 
@@ -63,19 +55,21 @@ size_t Hand::Size() {
 }
 
 Card Hand::TakeFromHand() {
+	//Take card from last index
 	Card C = this->cards.at(this->cards.size() - 1);
-	this->cards.pop_back();
+	this->cards.pop_back(); //remove card at last index from vector
 	return C;
 }
 
 void Hand::EmptyHand() {
+	//removes all cards from start to end index
 	this->cards.erase(this->cards.begin(),this->cards.end());
 }
 
-//Debug thing to see how random shuffle id / how random generated cards are. Remove later.
 void Hand::PrintCards() {
+	std::cout << "Your cards values are the following" << std::endl;
 	for (int i = 0; i < this->cards.size(); i++) {
-		std::cout << "Card value at index " << i << " is: " << this->cards[i].Value() << std::endl;
+		std::cout << this->cards[i].Value() << std::endl;
 	}
 }
 

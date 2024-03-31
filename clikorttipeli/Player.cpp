@@ -28,10 +28,19 @@ void Player::ViewBalance() {
 }
 
 //Give player cards from deck
-void Player::GiveCards(unsigned int Count, Deck& deck) {
+void Player::GiveCards(unsigned int Count, Deck& deck, int WhichHand) {
 	if (deck.IsEmpty() == false) {
-		for (unsigned int i = 0; i < Count; i++) {
-			this->hand.Add(deck.TakeCard());
+		switch (WhichHand) {
+		case 1:
+			for (unsigned int i = 0; i < Count; i++) {
+				this->hand.Add(deck.TakeCard());
+			}
+			break;
+		case 2:
+			for (unsigned int i = 0; i < Count; i++) {
+				this->hand2.Add(deck.TakeCard());
+			}
+			break;
 		}
 	}
 	else {
@@ -40,25 +49,73 @@ void Player::GiveCards(unsigned int Count, Deck& deck) {
 }
 
 //Make hand empty for next games
-void Player::EmptyHand() {
-	this->hand.EmptyHand();
+void Player::EmptyHand(int WhichHand) {
+	switch (WhichHand) {
+	case 1:
+		this->hand.EmptyHand();
+		break;
+	case 2:
+		this->hand2.EmptyHand();
+		break;
+	}
 }
 
-int Player::SumOfHand() {
-	return this->hand.Sum();
+int Player::SumOfHand(int WhichHand) {
+	switch (WhichHand) {
+	case 1:
+		return this->hand.Sum();
+		break;
+	case 2:
+		return this->hand2.Sum();
+		break;
+	}
 }
 
-Hand Player::SplitHand() {
-	if (this->hand.Size() == 2 && this->hand.SameValue() == true) {
-		Hand NewHand;
-		NewHand.Add(this->hand.TakeFromHand());
-		return NewHand;
+void Player::SplitHand() {
+	if (this->hand.Size() == 2 && this->hand.SameValue() == true && this->hand2.Size() == 0) {
+		this->hand2.Add(this->hand.TakeFromHand());
 	}
 	else {
-		return this->hand;
+		std::cout << "Your hand cannot be split." << std::endl;
 	}
 }
 
 void Player::CardtoDealer(Card& c) {
 	this->hand.Add(c);
+}
+
+bool Player::isHandEmpty(int WhichHand) {
+	switch (WhichHand) {
+	case 1:
+		if (this->hand.Size() == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		break;
+	case 2:
+		if (this->hand2.Size() == 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+		break;
+	}
+}
+
+void Player::CheckCardsInHand(int whichHand) {
+	switch (whichHand) {
+	case 1:
+		this->hand.PrintCards();
+		break;
+	case 2:
+		this->hand2.PrintCards();
+		break;
+	}
+}
+
+double Player::CurrentBalance() {
+	return this->balance;
 }

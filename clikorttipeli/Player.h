@@ -14,18 +14,26 @@ public:
 
 	void ViewBalance();
 
-	void GiveCards(unsigned int Count, Deck& deck);
+	void GiveCards(unsigned int Count, Deck& deck, int whichHand);
 
-	void EmptyHand();
+	void EmptyHand(int whichHand);
 
-	int SumOfHand();
+	int SumOfHand(int whichHand);
 	
-	Hand SplitHand();
+	void SplitHand();
 
 	void CardtoDealer(Card& c);
 
+	void CheckCardsInHand(int whichHand);
+
+	bool isHandEmpty(int whichHand);
+	
+	double CurrentBalance();
+
 private:
 	Hand hand;
+	//used if split
+	Hand hand2;
 	double balance;
 };
 
