@@ -5,9 +5,20 @@
 
 using namespace std;
 
-void Hit(Player& player, Deck& deck) {
-	player.GiveCards(1, deck);
-	cout << "You've decided to hit. The new value of your hand is: " << player.SumOfHand() << endl;
+void Hit(Player& player, Deck& deck, __in_opt short s = 1) {
+	// optional s so i dont have to make a seperate function for revealing dealers hand
+	switch (s)
+	{
+	case 1:
+		player.GiveCards(1, deck);
+		cout << "You've decided to hit. The new value of your hand is: " << player.SumOfHand() << endl;
+		break;
+	case 2:
+		Card card = deck.TakeCard();
+		cout << "The dealers has pulled a card with the value: " << card.Value() << "\nTheir hand now has a value of " << player.SumOfHand() << endl;
+		player.CardtoDealer(card);
+		break;
+	}
 	//shuffle for a little more randomness in the cards
 	deck.ShuffleDeck();
 }
@@ -30,8 +41,10 @@ Hand Split(Player& player, double& bet, Deck& deck) {
 			cout << "How much would you like to bet with the new hand?" << endl;
 			double newBet = 0;
 			cin >> newBet;
-			while (newBet < 0) {
-				cout << "You must bet atleast $1. Please place your bet." << endl;
+			while (cin.fail() || newBet <= 0) {
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cout << "Please enter a number that is higher than 0" << endl;
 				cin >> newBet;
 			}
 			bet += newBet;
@@ -68,6 +81,12 @@ void blackjack(Player& player) {
 	player.ViewBalance();
 	double bet = 0;
 	cin >> bet;
+	while (cin.fail()) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "PLeesea give number :DD" << endl;
+		cin >> bet;
+	}
 	player.TakeBalance(bet);
 	Deck deck;
 	Deck* ptrDeck = &deck;
@@ -83,6 +102,12 @@ void blackjack(Player& player) {
 		cout << "What action do you want to do?\n1: Hit\n2: Stand\n3: Split\n4: DoubleDown\n5: Fold\n6: Done" << endl;
 		short choice;
 		cin >> choice;
+		while (cin.fail()) {
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "You input the wrong data type. Please give an integer." << endl;
+			cin >> choice;
+		}
 		//Have to declare outside of switch. Only used with split.
 		Hand hand2;
 		switch (choice)
@@ -125,12 +150,14 @@ void blackjack(Player& player) {
 	} while (!gameOver);
 
 	int playerHandValue = player.SumOfHand();
+	Player* ptrDealer = &Dealer;
+	
 	switch (HandOver21)
 	{
 		//Here if player didnt lose from going above 21
 	case false:
 		while (Dealer.SumOfHand() < 17) {
-			Hit(Dealer, *ptrDeck);
+			Hit(*ptrDealer, *ptrDeck, 2);
 		}
 		cout << "The dealers hand has settled at a value of " << Dealer.SumOfHand() << endl;
 		if (playerHandValue > Dealer.SumOfHand() || playerHandValue == 21) {
@@ -138,7 +165,6 @@ void blackjack(Player& player) {
 			double Winnings = CalculateWinnings(bet);
 			cout << "You've won $" << Winnings << " and your hand's final value was " << playerHandValue << endl;
 			player.ViewBalance();
-			free(ptrDeck);
 			player.EmptyHand();
 			Dealer.EmptyHand();
 		}

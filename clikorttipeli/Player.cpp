@@ -58,3 +58,7 @@ Hand Player::SplitHand() {
 		return this->hand;
 	}
 }
+
+void Player::CardtoDealer(Card& c) {
+	this->hand.Add(c);
+}

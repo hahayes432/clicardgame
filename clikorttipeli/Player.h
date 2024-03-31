@@ -22,6 +22,8 @@ public:
 	
 	Hand SplitHand();
 
+	void CardtoDealer(Card& c);
+
 private:
 	Hand hand;
 	double balance;
