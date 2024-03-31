@@ -6,17 +6,20 @@
 
 using namespace std;
 
-void Hit(Player& player, Deck& deck, short whatToDo = 1) {
-	// case 3 made so i dont have to make a seperate function for revealing dealers hand
-	switch (whatToDo)
+void Hit(Player& player, Deck& deck, short whatHand = 1) {
+	// case 3 made so i dont have to make a seperate function for revealing dealers 
+	/*
+				What hand used to be able to play hand 2 if split was successfull
+	*/
+	switch (whatHand)
 	{
 	case 1:
-		player.GiveCards(1, deck, whatToDo);
-		cout << "You've decided to hit. The new value of your hand is: " << player.SumOfHand(whatToDo) << endl;
+		player.GiveCards(1, deck, whatHand);
+		cout << "You've decided to hit. The new value of your hand is: " << player.SumOfHand(whatHand) << endl;
 		break;
 	case 2:
-		player.GiveCards(1, deck, whatToDo);
-		cout << "You've decided to hit. The new value of your hand is: " << player.SumOfHand(whatToDo) << endl;
+		player.GiveCards(1, deck, whatHand);
+		cout << "You've decided to hit. The new value of your hand is: " << player.SumOfHand(whatHand) << endl;
 		break;
 	case 3:
 		Card card = deck.TakeCard();
@@ -52,14 +55,17 @@ void Split(Player& player, double& bet, Deck& deck, bool& hasSplit) {
 	}
 }
 
-void DoubleDown(Player& player, double& bet, Deck& deck, short s = 1) {
+void DoubleDown(Player& player, double& bet, Deck& deck, short whatHand = 1) {
+	/*
+				What hand used to be able to play hand 2 if split was successfull
+	*/
 	player.TakeBalance(bet);
 	bet *= 2;
-	player.GiveCards(1, deck, s);
-	cout << "Your bet has been doubled and you've been given a new card.\nThe bet now stands at $" << bet << ".\nThe sum of your hand has increased to " << player.SumOfHand(s) << endl;
+	player.GiveCards(1, deck, whatHand);
+	cout << "Your bet has been doubled and you've been given a new card.\nThe bet now stands at $" << bet << ".\nThe sum of your hand has increased to " << player.SumOfHand(whatHand) << endl;
 }
 
-void Fold(Player& player, double& bet, short s = 1) {
+void Fold(Player& player, double& bet) {
 	double amountLost = (bet / 2);
 	cout << "amount lost: " << amountLost << "\nbet amount" << bet << endl;
 	//add half of original bet back to balance
@@ -74,12 +80,15 @@ double CalculateWinnings(double& bet) {
 
 //move game loop here
 void gameLoop(Player& player, Deck& deck, double& bet, Player& Dealer, bool& hasSplit, int whatHand = 1)  {
+	/*
+				What hand used to be able to play hand 2 if split was successfull
+	*/
 	bool gameOver = false;
 	bool HandOver21 = false;
 	player.GiveCards(2, deck, whatHand);
 	//make sure player cant auto lose and that the starting hand isnt too high
 	if (player.SumOfHand(whatHand) >= 17) {
-		player.EmptyHand(whatHand);
+		player.EmptyHand();
 		deck.ShuffleDeck();
 		player.GiveCards(2, deck, whatHand);
 	}
@@ -114,7 +123,7 @@ void gameLoop(Player& player, Deck& deck, double& bet, Player& Dealer, bool& has
 			DoubleDown(player, bet, deck, whatHand);
 			break;
 		case 5:
-			Fold(player, bet, whatHand);
+			Fold(player, bet);
 			gameOver = true;
 			break;
 		case 6:
@@ -135,8 +144,8 @@ void gameLoop(Player& player, Deck& deck, double& bet, Player& Dealer, bool& has
 			cout << "You lost.\nYou've gone over 21." << endl;
 			cout << "\nTotal balance lost: $" << bet << endl;
 			player.TakeBalance(bet);
-			player.EmptyHand(whatHand);
-			Dealer.EmptyHand(1);
+			player.EmptyHand();
+			Dealer.EmptyHand();
 		}
 	} while (!gameOver);
 
@@ -193,10 +202,8 @@ void blackjack(Player& player) {
 	if (hasSplit == true) {
 		gameLoop(player, *ptrDeck, bet, *ptrDealer, hasSplit, 2);
 	}
-	player.EmptyHand(1);
-	Dealer.EmptyHand(1);
-	player.EmptyHand(2);
-	Dealer.EmptyHand(2);
+	player.EmptyHand();
+	Dealer.EmptyHand();
 }
 
 int main() {

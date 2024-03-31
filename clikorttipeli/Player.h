@@ -16,7 +16,7 @@ public:
 
 	void GiveCards(unsigned int Count, Deck& deck, int whichHand);
 
-	void EmptyHand(int whichHand);
+	void EmptyHand();
 
 	int SumOfHand(int whichHand);
 	

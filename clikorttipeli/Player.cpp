@@ -27,7 +27,7 @@ void Player::ViewBalance() {
 	std::wcout << "Your balance is: $" << this->balance << std::endl;
 }
 
-//Give player cards from deck
+//Give player cards from deck to chosen hand
 void Player::GiveCards(unsigned int Count, Deck& deck, int WhichHand) {
 	if (deck.IsEmpty() == false) {
 		switch (WhichHand) {
@@ -48,18 +48,13 @@ void Player::GiveCards(unsigned int Count, Deck& deck, int WhichHand) {
 	}
 }
 
-//Make hand empty for next games
-void Player::EmptyHand(int WhichHand) {
-	switch (WhichHand) {
-	case 1:
-		this->hand.EmptyHand();
-		break;
-	case 2:
-		this->hand2.EmptyHand();
-		break;
-	}
+//Make players hands empty
+void Player::EmptyHand() {
+	this->hand.EmptyHand();
+	this->hand2.EmptyHand();
 }
 
+//Return the sum of all cards values from chosen hand
 int Player::SumOfHand(int WhichHand) {
 	switch (WhichHand) {
 	case 1:
@@ -71,6 +66,7 @@ int Player::SumOfHand(int WhichHand) {
 	}
 }
 
+//Split hand into 2 if there is only 2 cards that have the same value and you havent split before
 void Player::SplitHand() {
 	if (this->hand.Size() == 2 && this->hand.SameValue() == true && this->hand2.Size() == 0) {
 		this->hand2.Add(this->hand.TakeFromHand());
@@ -80,10 +76,12 @@ void Player::SplitHand() {
 	}
 }
 
+//Made so i can print the specific card's value when revealing dealers hand
 void Player::CardtoDealer(Card& c) {
 	this->hand.Add(c);
 }
 
+//Check if the chosen hand is empty
 bool Player::isHandEmpty(int WhichHand) {
 	switch (WhichHand) {
 	case 1:
@@ -105,6 +103,7 @@ bool Player::isHandEmpty(int WhichHand) {
 	}
 }
 
+//check the cards of the chosen hand
 void Player::CheckCardsInHand(int whichHand) {
 	switch (whichHand) {
 	case 1:
@@ -116,6 +115,7 @@ void Player::CheckCardsInHand(int whichHand) {
 	}
 }
 
+//Get players balance for if check purposes
 double Player::CurrentBalance() {
 	return this->balance;
 }
